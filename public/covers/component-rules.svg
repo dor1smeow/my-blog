@@ -1,0 +1,15 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#FFF5EB"/>
+  <rect x="72" y="72" width="1056" height="531" rx="40" fill="#422006"/>
+  <rect x="140" y="150" width="220" height="64" rx="32" fill="#F59E0B"/>
+  <rect x="390" y="150" width="220" height="64" rx="32" fill="#FCD34D"/>
+  <rect x="640" y="150" width="220" height="64" rx="32" fill="#FBBF24"/>
+  <rect x="890" y="150" width="160" height="64" rx="32" fill="#FDE68A"/>
+  <rect x="140" y="270" width="910" height="56" rx="20" fill="#FFFBEB"/>
+  <rect x="140" y="360" width="290" height="150" rx="24" fill="#78350F"/>
+  <rect x="450" y="360" width="290" height="150" rx="24" fill="#92400E"/>
+  <rect x="760" y="360" width="290" height="150" rx="24" fill="#B45309"/>
+  <text x="140" y="560" fill="#FFFBEB" font-family="Arial, sans-serif" font-size="44" font-weight="700">
+    Component Rules for Content Sites
+  </text>
+</svg>

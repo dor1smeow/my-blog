@@ -1,11 +1,27 @@
-import React from 'react';
+import Link from "next/link"
 
-const Footer: React.FC = () => {
+import Container from "@/components/layout/container"
+import { siteConfig } from "@/lib/site"
+
+export default function Footer() {
   return (
-    <footer className="footer">
-      <p className="footer-text">© 2026 My Blog. All rights reserved.</p>
+    <footer className="border-t bg-muted/30">
+      <Container className="flex flex-col gap-3 py-8 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
+        <p>
+          © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+        </p>
+        <div className="flex items-center gap-4">
+          <Link href="/about" className="transition-colors hover:text-foreground">
+            关于我
+          </Link>
+          <a
+            href={`mailto:${siteConfig.email}`}
+            className="transition-colors hover:text-foreground"
+          >
+            {siteConfig.email}
+          </a>
+        </div>
+      </Container>
     </footer>
-  );
-};
-
-export default Footer;
+  )
+}

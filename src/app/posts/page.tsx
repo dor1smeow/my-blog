@@ -1,36 +1,38 @@
-// app/posts/page.tsx
+import type { Metadata } from "next"
 
-import PostCard from '@/components/post/postCard';
-import { posts } from '@/data/posts';
+import Container from "@/components/layout/container"
+import PostList from "@/components/post/postList"
+import { Badge } from "@/components/ui/badge"
+import { getPosts, getAllTags } from "@/lib/posts"
 
-export default function PostsPage() {
+export const metadata: Metadata = {
+  title: "文章",
+  description: "所有文章都集中在这里，按同一套卡片和数据结构展示。",
+}
+
+export default async function PostsPage() {
+  const [posts, tags] = await Promise.all([getPosts(), getAllTags()])
+
   return (
-    <div className="container mx-auto px-6 py-8">
-      <h1 className="text-3xl font-bold mb-6">我的文章列表</h1>
-      <p className="text-gray-600 mb-8">
-        这里是所有文章的集合，你可以通过筛选查看不同类别的文章。
-      </p>
+    <main>
+      <Container className="py-16">
+        <header className="max-w-3xl space-y-4">
+          <h1 className="text-4xl font-semibold tracking-tight">文章</h1>
+          <p className="text-lg leading-8 text-muted-foreground">
+            所有文章都共用同一套数据结构和展示组件，页面层只负责组合，不再内嵌额外假数据。
+          </p>
+        </header>
 
-      <div className="flex mb-8">
-        <button className="mr-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-          全部
-        </button>
-        <button className="mr-4 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">
-          Next.js
-        </button>
-        <button className="mr-4 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">
-          React
-        </button>
-        <button className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">
-          TypeScript
-        </button>
-      </div>
+        <div className="mt-8 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <Badge key={tag} variant="secondary">
+              {tag}
+            </Badge>
+          ))}
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))}
-      </div>
-    </div>
-  );
+        <PostList posts={posts} className="mt-10 xl:grid-cols-3" />
+      </Container>
+    </main>
+  )
 }

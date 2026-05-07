@@ -4,7 +4,7 @@ export interface Post {
   slug: string
   summary: string
   content: string
-  cover: string
+  cover?: string | null
   publishedAt: string
   tags: string[]
 }

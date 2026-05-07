@@ -1,0 +1,13 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#EAF4FF"/>
+  <rect x="84" y="84" width="1032" height="507" rx="36" fill="#0F172A"/>
+  <rect x="150" y="150" width="300" height="46" rx="23" fill="#2563EB"/>
+  <rect x="150" y="230" width="390" height="30" rx="15" fill="#CBD5E1"/>
+  <rect x="150" y="280" width="450" height="30" rx="15" fill="#94A3B8"/>
+  <rect x="150" y="360" width="420" height="150" rx="28" fill="#1E293B"/>
+  <rect x="660" y="170" width="300" height="300" rx="150" fill="#1D4ED8"/>
+  <path d="M780 236H900V284H840V408H780V284H720V236H780Z" fill="#EFF6FF"/>
+  <text x="150" y="560" fill="#EFF6FF" font-family="Arial, sans-serif" font-size="44" font-weight="700">
+    TypeScript as a Boundary Checker
+  </text>
+</svg>

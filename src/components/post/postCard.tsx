@@ -1,27 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
 import type { Post } from "@/types/post";
+import { formatPostDate } from "@/lib/posts";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
-const PostCard: React.FC<{ post?: Post }> = ({ post }) => {
-  // 如果没有提供 post，使用默认数据
-  const defaultPost: Post = {
-    id: "1",
-    title: "示例文章",
-    slug: "example-post",
-    summary: "这是示例文章的摘要内容。",
-    content: "这是文章的完整内容。",
-    cover: "/covers/default.jpg",
-    publishedAt: "2026-01-01",
-    tags: ["示例", "博客"]
-  };
+type PostCardProps = {
+  post: Post;
+};
 
-  const currentPost = post || defaultPost;
-  const { title, slug, summary, tags, publishedAt, cover } = currentPost;
+const PostCard: React.FC<PostCardProps> = ({ post }) => {
+  const { title, slug, summary, tags, publishedAt, cover } = post;
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
-   
+    <Card className="h-full overflow-hidden py-0 transition hover:-translate-y-1 hover:shadow-md">
+      {cover ? (
         <Image
           src={cover}
           alt={title}
@@ -29,34 +25,33 @@ const PostCard: React.FC<{ post?: Post }> = ({ post }) => {
           height={540}
           className="h-52 w-full object-cover"
         />
+      ) : null}
 
-        <div className="space-y-4 p-5">
-          <div className="flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          <div className="space-y-2">
-            <p className="text-sm text-gray-500">{publishedAt}</p>
-            <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-            <p className="text-sm leading-6 text-gray-600">{summary}</p>
-          </div>
-
-          <Link href={`/posts/${slug}`} className="block">
-            <span className="inline-flex text-sm font-medium text-gray-600">
-              阅读全文
-            </span>
-          </Link>
-          
+      <CardContent className="flex h-full flex-col gap-4 p-5">
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <Badge key={tag} variant="secondary">
+              {tag}
+            </Badge>
+          ))}
         </div>
-      
-    </article>
+
+        <div className="space-y-2.5">
+          <p className="text-sm text-muted-foreground">
+            {formatPostDate(publishedAt)}
+          </p>
+          <h2 className="text-xl font-semibold text-foreground">{title}</h2>
+          <p className="text-sm leading-6 text-muted-foreground">{summary}</p>
+        </div>
+
+        <Button variant="ghost" size="sm" asChild className="mt-auto -ml-2 w-fit">
+          <Link href={`/posts/${slug}`}>
+            阅读全文
+            <ArrowRight className="size-4" />
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
   );
 };
 

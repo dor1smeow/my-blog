@@ -1,0 +1,16 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#F5F1E8"/>
+  <rect x="60" y="60" width="1080" height="555" rx="32" fill="#171717"/>
+  <rect x="110" y="120" width="340" height="24" rx="12" fill="#D4D4D4"/>
+  <rect x="110" y="170" width="480" height="72" rx="20" fill="#FAFAFA"/>
+  <rect x="110" y="274" width="360" height="20" rx="10" fill="#737373"/>
+  <rect x="110" y="314" width="290" height="20" rx="10" fill="#525252"/>
+  <rect x="110" y="388" width="460" height="150" rx="24" fill="#262626"/>
+  <rect x="630" y="170" width="460" height="300" rx="24" fill="#FAFAFA"/>
+  <rect x="680" y="220" width="160" height="18" rx="9" fill="#171717"/>
+  <rect x="680" y="262" width="260" height="18" rx="9" fill="#404040"/>
+  <rect x="680" y="304" width="220" height="18" rx="9" fill="#525252"/>
+  <text x="110" y="590" fill="#F5F5F5" font-family="Arial, sans-serif" font-size="44" font-weight="700">
+    Next.js 16 Layout Audit
+  </text>
+</svg>

@@ -1,15 +1,20 @@
-import React from 'react';
+import * as React from "react"
 
-interface ContainerProps {
-  children: React.ReactNode;
-}
+import { cn } from "@/lib/utils"
 
-const Container: React.FC<ContainerProps> = ({ children }) => {
+type ContainerProps = React.ComponentProps<"div">
+
+export default function Container({
+  className,
+  children,
+  ...props
+}: ContainerProps) {
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div
+      className={cn("mx-auto w-full max-w-6xl px-6", className)}
+      {...props}
+    >
       {children}
     </div>
-  );
-};
-
-export default Container;
+  )
+}

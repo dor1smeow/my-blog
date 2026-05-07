@@ -1,59 +1,71 @@
 import Link from "next/link"
 
-import Footer from '@/components/layout/footer';
-import Container from '@/components/layout/container';
-import PostCard from '@/components/post/postCard';
+import type { Metadata } from "next"
 
-export default function Home() {
+import Container from "@/components/layout/container"
+import PostList from "@/components/post/postList"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { getAllTags, getFeaturedPosts } from "@/lib/posts"
+
+export const metadata: Metadata = {
+  title: "首页",
+  description: "这里记录前端开发、设计系统与内容型网站构建的实践。",
+}
+
+export default async function Home() {
+  const [posts, tags] = await Promise.all([getFeaturedPosts(), getAllTags()])
+
   return (
-    <div>
-      <Container>
-        <main>
-          {/* 页头 - hero 区域 */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-center mb-4">欢迎来到我的博客</h2>
-            <p className="text-center text-gray-600 max-w-2xl mx-auto">
-              我分享关于技术、生活、成长的内容，希望能为你带来一些启发。
-            </p>
-          </section>
+    <main>
+      <Container className="py-16 md:py-20">
+        <section className="max-w-3xl space-y-6">
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
+            Personal notes on frontend systems
+          </p>
+          <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">
+            用更清晰的结构写内容，也用更清晰的结构维护网站。
+          </h1>
+          <p className="text-lg leading-8 text-muted-foreground">
+            这里主要记录 Next.js、TypeScript、设计系统和内容型产品的实现细节，
+            重点不是堆功能，而是让页面结构和代码结构同时保持干净。
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild>
+              <Link href="/posts">查看全部文章</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/about">关于我</Link>
+            </Button>
+          </div>
+        </section>
 
-          {/* 最新文章列表 */}
-          <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">最新文章</h2>
-            <PostCard />
-          </section>
-
-          {/* 查看更多文章按钮 */}
-          <section className="text-center mt-8">
-            <Link
-              href="/posts"
-              className="inline-flex bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-            >
-              查看更多文章 <span aria-hidden="true">→</span>
-            </Link>
-          </section>
-
-          {/* 标签区域 - 静态内容 */}
-          <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">标签</h2>
-            <div className="flex space-x-2">
-              <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded">React</span>
-              <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded">TypeScript</span>
-              <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded">Next.js</span>
-              <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded">编程</span>
+        <section className="mt-16 space-y-6">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-semibold tracking-tight">最新文章</h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                最近完成的几篇整理，都是围绕博客结构、类型边界和组件复用。
+              </p>
             </div>
-          </section>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/posts">全部文章</Link>
+            </Button>
+          </div>
+          <PostList posts={posts} />
+        </section>
 
-          {/* 今日成果 */}
-          <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">今日成果</h2>
-            <div className="p-4 bg-gray-50 rounded">
-              <p>今天完成了《React+Tailwind 基础页面设计》教程，并实现了响应式导航栏和页脚组件。</p>
-            </div>
-          </section>
-        </main>
+        <section className="mt-16 space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight">常写主题</h2>
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <Badge key={tag} variant="outline">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        </section>
       </Container>
-      <Footer />
-    </div>
-  );
+    </main>
+  )
 }
