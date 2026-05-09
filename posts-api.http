@@ -1,0 +1,88 @@
+@baseUrl = http://127.0.0.1:3000/api/posts
+@postId = cmoy8by680004i7uod8tfmxgv
+
+### 列表
+GET {{baseUrl}}
+
+### 详情 - 按 slug
+GET {{baseUrl}}/build-blog-with-nextjs
+
+### 详情 - 不存在
+GET {{baseUrl}}/not-exists
+
+### 创建文章
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "后端测试文章",
+  "slug": "backend-test-post",
+  "summary": "用于接口测试",
+  "content": "这是一篇测试文章",
+  "cover": "/covers/test.svg",
+  "status": "DRAFT",
+  "categoryId": "cmor2n754000040uoigbdsbwn",
+  "tagIds": ["1", "2"]
+}
+
+### 更新文章 - 按 id
+PATCH {{baseUrl}}/{{postId}}
+Content-Type: application/json
+
+{
+  "title": "后端测试文章-已更新",
+  "slug": "backend-test-post-updated",
+  "summary": "更新后的摘要",
+  "content": "更新后的内容",
+  "status": "PUBLISHED",
+  "tagIds": ["1"]
+}
+
+### 更新不存在的文章
+PATCH {{baseUrl}}/not-exists-id
+Content-Type: application/json
+
+{
+  "title": "不存在的文章"
+}
+
+### 发布
+PATCH {{baseUrl}}/{{postId}}/publish
+
+### 下线
+PATCH {{baseUrl}}/{{postId}}/unpublish
+
+### 删除
+DELETE {{baseUrl}}/{{postId}}
+
+### 重复删除
+DELETE {{baseUrl}}/{{postId}}
+
+### 参数校验失败
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": ""
+}
+
+### 重复 slug
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "重复 slug 测试",
+  "slug": "build-blog-with-nextjs",
+  "summary": "重复 slug",
+  "content": "重复 slug",
+  "tagIds": []
+}
+
+### 非法 JSON
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+
+### OPTIONS
+OPTIONS {{baseUrl}}
