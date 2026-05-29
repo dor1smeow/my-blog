@@ -1,6 +1,8 @@
 {
     // 全局包管理器
     "npm.packageManager": "pnpm",
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
 
     // 文件识别
     "files.associations": {
