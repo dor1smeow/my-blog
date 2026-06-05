@@ -1,8 +1,14 @@
+/* 将 shadcn/ui 的 CSS 变量映射成 Tailwind v4 可识别的主题令牌。 */
 @theme inline {
+    /* 基础页面颜色，对应 bg-background、text-foreground 等工具类。 */
     --color-background: var(--background);
     --color-foreground: var(--foreground);
+
+    /* shadcn 默认字体令牌，当前项目没有单独在这里定义字体值，只做映射。 */
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
+
+    /* 侧边栏相关颜色令牌。 */
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -11,11 +17,15 @@
     --color-sidebar-primary: var(--sidebar-primary);
     --color-sidebar-foreground: var(--sidebar-foreground);
     --color-sidebar: var(--sidebar);
+
+    /* 图表颜色令牌，可用于 chart-1 到 chart-5。 */
     --color-chart-5: var(--chart-5);
     --color-chart-4: var(--chart-4);
     --color-chart-3: var(--chart-3);
     --color-chart-2: var(--chart-2);
     --color-chart-1: var(--chart-1);
+
+    /* 表单、边框、状态和语义颜色令牌。 */
     --color-ring: var(--ring);
     --color-input: var(--input);
     --color-border: var(--border);
@@ -32,20 +42,30 @@
     --color-popover: var(--popover);
     --color-card-foreground: var(--card-foreground);
     --color-card: var(--card);
+
+    /* 统一圆角令牌，基于 --radius 派生不同尺寸。 */
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* 亮色模式默认变量。 */
 :root {
-    --radius: 0.5rem;
+    /* 基础圆角大小，组件圆角会基于它进行增减。 */
+    --radius: 0.625rem;
+
+    /* 页面和文字基础颜色。 */
     --background: oklch(100% 0 0deg);
     --foreground: oklch(14.1% 0.005 285.823deg);
+
+    /* 卡片和弹出层颜色。 */
     --card: oklch(100% 0 0deg);
     --card-foreground: oklch(14.1% 0.005 285.823deg);
     --popover: oklch(100% 0 0deg);
     --popover-foreground: oklch(14.1% 0.005 285.823deg);
+
+    /* 主要、次要、弱化和强调颜色。 */
     --primary: oklch(21% 0.006 285.885deg);
     --primary-foreground: oklch(98.5% 0 0deg);
     --secondary: oklch(96.7% 0.001 286.375deg);
@@ -54,15 +74,21 @@
     --muted-foreground: oklch(55.2% 0.016 285.938deg);
     --accent: oklch(96.7% 0.001 286.375deg);
     --accent-foreground: oklch(21% 0.006 285.885deg);
+
+    /* 危险操作、边框、输入框和聚焦环颜色。 */
     --destructive: oklch(57.7% 0.245 27.325deg);
     --border: oklch(92% 0.004 286.32deg);
     --input: oklch(92% 0.004 286.32deg);
     --ring: oklch(70.5% 0.015 286.067deg);
+
+    /* 图表配色。 */
     --chart-1: oklch(64.6% 0.222 41.116deg);
     --chart-2: oklch(60% 0.118 184.704deg);
     --chart-3: oklch(39.8% 0.07 227.392deg);
     --chart-4: oklch(82.8% 0.189 84.429deg);
     --chart-5: oklch(76.9% 0.188 70.08deg);
+
+    /* 侧边栏配色。 */
     --sidebar: oklch(98.5% 0 0deg);
     --sidebar-foreground: oklch(14.1% 0.005 285.823deg);
     --sidebar-primary: oklch(21% 0.006 285.885deg);
@@ -73,13 +99,19 @@
     --sidebar-ring: oklch(70.5% 0.015 286.067deg);
 }
 
+/* 暗色模式变量：当 html 或上层元素带有 .dark 时生效。 */
 .dark {
+    /* 页面和文字基础颜色。 */
     --background: oklch(14.1% 0.005 285.823deg);
     --foreground: oklch(98.5% 0 0deg);
+
+    /* 卡片和弹出层颜色。 */
     --card: oklch(21% 0.006 285.885deg);
     --card-foreground: oklch(98.5% 0 0deg);
     --popover: oklch(21% 0.006 285.885deg);
     --popover-foreground: oklch(98.5% 0 0deg);
+
+    /* 主要、次要、弱化和强调颜色。 */
     --primary: oklch(92% 0.004 286.32deg);
     --primary-foreground: oklch(21% 0.006 285.885deg);
     --secondary: oklch(27.4% 0.006 286.033deg);
@@ -88,15 +120,21 @@
     --muted-foreground: oklch(70.5% 0.015 286.067deg);
     --accent: oklch(27.4% 0.006 286.033deg);
     --accent-foreground: oklch(98.5% 0 0deg);
+
+    /* 危险操作、边框、输入框和聚焦环颜色。 */
     --destructive: oklch(70.4% 0.191 22.216deg);
     --border: oklch(100% 0 0deg / 10%);
     --input: oklch(100% 0 0deg / 15%);
     --ring: oklch(55.2% 0.016 285.938deg);
+
+    /* 图表配色。 */
     --chart-1: oklch(48.8% 0.243 264.376deg);
     --chart-2: oklch(69.6% 0.17 162.48deg);
     --chart-3: oklch(76.9% 0.188 70.08deg);
     --chart-4: oklch(62.7% 0.265 303.9deg);
     --chart-5: oklch(64.5% 0.246 16.439deg);
+
+    /* 侧边栏配色。 */
     --sidebar: oklch(21% 0.006 285.885deg);
     --sidebar-foreground: oklch(98.5% 0 0deg);
     --sidebar-primary: oklch(48.8% 0.243 264.376deg);
@@ -107,11 +145,14 @@
     --sidebar-ring: oklch(55.2% 0.016 285.938deg);
 }
 
+/* shadcn 的全局基础样式补充。 */
 @layer base {
+    /* 所有元素默认使用主题里的 border 颜色。 */
     * {
         @apply border-border;
     }
 
+    /* 页面背景和文字颜色使用主题令牌，方便亮暗色模式统一切换。 */
     body {
         @apply bg-background text-foreground;
     }

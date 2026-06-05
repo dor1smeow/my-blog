@@ -5,7 +5,7 @@ import { AdminSidebar } from '@/components/admin/admin-sidebar';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
     return (
-        <div className="min-h-screen bg-gray-50 text-gray-900">
+        <div className="min-h-screen bg-stone-100/70 text-gray-900 dark:bg-zinc-950 dark:text-zinc-100">
             <div className="flex min-h-screen">
                 <AdminSidebar />
 

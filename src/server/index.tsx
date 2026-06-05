@@ -3,15 +3,19 @@ import { Scalar } from '@scalar/hono-api-reference';
 import { openAPIRouteHandler } from 'hono-openapi';
 import { prettyJSON } from 'hono/pretty-json';
 
-
+import { categoryRoutes } from './category/routes';
 import { createHonoApp } from './common/app';
 import { postRoutes } from './post/routes';
+import { tagRoutes } from './tag/routes';
 
 const app = createHonoApp().basePath('api');
 app.use(prettyJSON());
 app.get('/', (c) => c.text('Dor1smeow API'));
 app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404));
-const routes = app.route('/posts', postRoutes);
+const _routes = app
+    .route('/posts', postRoutes)
+    .route('/categories', categoryRoutes)
+    .route('/tags', tagRoutes);
 app.get(
     '/data',
     openAPIRouteHandler(app, {
@@ -34,5 +38,5 @@ app.get(
         url: '/api/data',
     }),
 );
-export type AppType = typeof routes;
+export type AppType = typeof _routes;
 export default app;

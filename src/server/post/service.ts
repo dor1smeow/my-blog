@@ -1,10 +1,17 @@
 import 'server-only';
-import { PostStatus } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
+
 import { isNil } from 'lodash';
 
 import db from '@/lib/db/client';
 
-import type { PostCreateInputData, PostUpdateInputData } from './type';
+import type {
+    PostCreateInputData,
+    PostItem,
+    PostListQuery,
+    PostPaginationMeta,
+    PostUpdateInputData,
+} from './type';
 
 const postDetailInclude = {
     category: true,
@@ -15,29 +22,82 @@ const formatPost = <
     T extends {
         category: { id: string; name: string; slug: string } | null;
         tags: Array<{ name: string }>;
+        publishedAt?: Date | string | null;
     },
 >(
     post: T,
 ) => ({
     ...post,
+    publishedAt:
+        post.publishedAt instanceof Date ? post.publishedAt.toISOString() : post.publishedAt,
     category: post.category,
     tags: post.tags.map((tag) => tag.name),
 });
 
 /**
- * 获取文章列表
+ * 获取文章分页列表
  */
-export async function getPosts() {
+function buildPostListWhere(query: PostListQuery): Prisma.PostWhereInput {
+    return {
+        ...(query.category
+            ? {
+                  category: {
+                      slug: query.category,
+                  },
+              }
+            : {}),
+        ...(query.tag
+            ? {
+                  tags: {
+                      some: {
+                          slug: query.tag,
+                      },
+                  },
+              }
+            : {}),
+        ...(query.status
+            ? {
+                  status: query.status,
+              }
+            : query.scope === 'public'
+              ? {
+                    status: 'PUBLISHED',
+                }
+              : {}),
+    };
+}
+
+export async function getPosts(query: PostListQuery): Promise<{
+    items: PostItem[];
+    meta: PostPaginationMeta;
+}> {
+    const where = buildPostListWhere(query);
+    const total = await db.post.count({ where });
+    const totalPages = Math.max(1, Math.ceil(total / query.pageSize));
+    const currentPage = Math.min(query.page, totalPages);
+    const skip = (currentPage - 1) * query.pageSize;
+
     const result = await db.post.findMany({
+        where,
         include: postDetailInclude,
-        where: {
-            status: PostStatus.PUBLISHED,
-        },
         orderBy: {
             createdAt: 'desc',
         },
+        skip,
+        take: query.pageSize,
     });
-    return result.map(formatPost);
+
+    return {
+        items: result.map(formatPost),
+        meta: {
+            page: currentPage,
+            pageSize: query.pageSize,
+            total,
+            totalPages,
+            hasPrev: currentPage > 1,
+            hasNext: currentPage < totalPages,
+        },
+    };
 }
 
 /**
@@ -123,20 +183,15 @@ export async function updatePost(id: string, data: PostUpdateInputData) {
         },
         data: {
             ...rest,
-            ...(categoryId
-                ? {
-                      category: {
-                          connect: { id: categoryId },
-                      },
-                  }
-                : {}),
-            ...(tagIds.length
-                ? {
-                      tags: {
-                          connect: tagIds.map((id) => ({ id })),
-                      },
-                  }
-                : {}),
+            category: categoryId ? { connect: { id: categoryId } } : { disconnect: true },
+            tags: {
+                set: [],
+                ...(tagIds.length
+                    ? {
+                          connect: tagIds.map((tagId) => ({ id: tagId })),
+                      }
+                    : {}),
+            },
         },
     });
     return formatPost(result);

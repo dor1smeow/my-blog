@@ -1,49 +1,60 @@
 /********************************************************* 自定义tailwind基本样式 *********************************************************/
 
+/* base 层用于放全局基础样式，会作用到整个应用。 */
 @layer base {
+    /* 保持浏览器默认字号为 16px，后续 rem 单位都会以它为基准。 */
     html {
         font-size: 100%;
     }
 
-    /* 以下为自定义样式 */
+    /* 初始化页面根元素：设置默认字体、满屏尺寸，并清除浏览器默认内外边距。 */
     html,
     body {
         @apply font-base h-[100vh] w-full p-0 m-0;
     }
 
+    /* 全站默认文本大小。 */
     body {
-        @apply text-sm;
+        @apply text-[13px] md:text-sm;
     }
 
+    /* 统一标题字号，避免不同浏览器默认标题样式不一致。 */
     h1 {
-        @apply text-3xl;
+        @apply text-2xl md:text-3xl;
     }
 
+    /* 二级标题字号。 */
     h2 {
-        @apply text-2xl;
+        @apply text-xl md:text-2xl;
     }
 
+    /* 三级标题字号。 */
     h3 {
-        @apply text-xl;
+        @apply text-lg md:text-xl;
     }
 
+    /* 四级标题字号。 */
     h4 {
-        @apply text-lg;
+        @apply text-base md:text-lg;
     }
 
+    /* 五级标题字号，和正文默认字号保持一致。 */
     h5 {
         @apply text-sm;
     }
 
+    /* 六级标题字号，比正文更小。 */
     h6 {
         @apply text-xs;
     }
 
+    /* 可点击按钮统一显示手型光标。 */
     button,
     [role='button'] {
         cursor: pointer;
     }
 
+    /* 禁用状态不再显示手型，避免误导用户以为可以点击。 */
     :disabled {
         cursor: default;
     }

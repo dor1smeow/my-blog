@@ -9,7 +9,7 @@ const postShape = {
     summary: z.string().nullable().optional().meta({ description: '文章摘要' }),
     content: z.string().meta({ description: '文章内容' }),
     cover: z.string().nullable().optional().meta({ description: '文章缩略图' }),
-    publishedAt: z.string().meta({ description: '文章发表时间' }),
+    publishedAt: z.string().nullable().optional().meta({ description: '文章发表时间' }),
     category: z
         .object({
             id: z.string().meta({ description: '分类ID' }),
@@ -40,9 +40,47 @@ export const postPaginateSchema = z
     .object({
         success: z.literal(true).meta({ description: '请求是否成功' }),
         data: z.array(createPostItemSchema()).meta({ description: '文章列表' }),
+        meta: z
+            .object({
+                page: z.number().int().min(1).meta({ description: '当前页码' }),
+                pageSize: z.number().int().min(1).meta({ description: '每页条数' }),
+                total: z.number().int().min(0).meta({ description: '总条数' }),
+                totalPages: z.number().int().min(1).meta({ description: '总页数' }),
+                hasPrev: z.boolean().meta({ description: '是否有上一页' }),
+                hasNext: z.boolean().meta({ description: '是否有下一页' }),
+            })
+            .strict()
+            .meta({ description: '分页信息' }),
     })
     .strict()
     .meta({ id: 'PostListResponse', description: '文章列表响应数据' });
+
+/**
+ * 文章列表查询参数
+ */
+export const postListRequestQuerySchema = z
+    .object({
+        page: z.coerce.number().int().min(1).default(1).meta({ description: '页码，默认第 1 页' }),
+        pageSize: z.coerce
+            .number()
+            .int()
+            .min(1)
+            .max(50)
+            .default(6)
+            .meta({ description: '每页条数，默认 6，最大 50' }),
+        category: z.string().trim().min(1).optional().meta({ description: '分类 slug' }),
+        tag: z.string().trim().min(1).optional().meta({ description: '标签 slug' }),
+        scope: z
+            .enum(['public', 'admin'])
+            .default('public')
+            .meta({ description: '查询范围，public 仅查询已发布内容，admin 查询后台列表' }),
+        status: z
+            .enum(['DRAFT', 'PUBLISHED'])
+            .optional()
+            .meta({ description: '文章状态，默认只返回已发布文章' }),
+    })
+    .strict()
+    .meta({ description: '文章列表查询参数' });
 
 /**
  * 文章操作(更新文章)时的请求数据结构

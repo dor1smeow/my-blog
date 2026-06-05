@@ -1,31 +1,35 @@
 /********************************************************* 自定义tailwind主题扩展 *********************************************************/
 
+/* theme 层用于扩展 Tailwind 主题令牌，下面变量会生成对应的工具类。 */
 @theme {
+    /* 自定义响应式断点，可使用 xs:、sm:、md:、lg:、xl:、2xl: 前缀。 */
     --breakpoint-xs: 30rem;
     --breakpoint-sm: 36rem;
     --breakpoint-md: 48rem;
     --breakpoint-lg: 62rem;
     --breakpoint-xl: 75rem;
     --breakpoint-2xl: 87.5rem;
+
+    /* 自定义阴影工具类，对应 shadow-nysm、shadow-ny、shadow-nymd 等。 */
     --shadow-nysm: 0 0 2px 0 rgb(0 0 0 / 5%);
     --shadow-ny: 0 0 3px 0 rgb(0 0 0 / 10%), 0 0 2px - 1px rgb(0 0 0 / 10%);
     --shadow-nymd: 0 0 6px -1px rgb(0 0 0 / 10%), 0 0 4px -2px rgb(0 0 0 / 10%);
     --shadow-nylg: 0 0 15px -3px rgb(0 0 0 / 10%), 0 0 6px -4px rgb(0 0 0 / 10%);
     --shadow-spread: 0 5px 40px rgb(0 0 0 / 10%);
 
-    /* 默认字体 */
+    /* 默认正文字体，font-base 会使用这一组字体栈。 */
     --font-base:
         -apple-system, blinkmacsystemfont, tahoma, arial, 'Hiragino Sans GB', 'Microsoft YaHei',
         'WenQuanYi Micro Hei', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
-    /* 霞鹜文楷字体 */
+    /* 霞鹜文楷字体，font-lxgw 会优先使用本地注册的 LXGW WenKai。 */
     --font-lxgw:
         'LXGW WenKai', '楷体', 'STKaiti', -apple-system, blinkmacsystemfont, tahoma, arial,
         'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-    /* 默认代码字体 */
+    /* 默认代码字体，font-code 会优先使用 Fira Code。 */
     --font-code:
         'Fira Code', -apple-system, blinkmacsystemfont, tahoma, arial, 'Hiragino Sans GB',
         'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',

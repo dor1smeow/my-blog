@@ -3,32 +3,29 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import Container from '@/components/layout/container';
-import PostList from '@/components/post/postList';
+import { LatestPosts } from '@/components/post/latest-posts';
 import { Badge } from '@/components/shadcn/ui/badge';
 import { Button } from '@/components/shadcn/ui/button';
 
-
 export const metadata: Metadata = {
     title: '首页',
-    description: '这里记录前端开发、设计系统与内容型网站构建的实践。',
+    description: '记录前端开发、组件设计和内容产品实现里的实践与复盘。',
 };
 
 export default async function Home() {
-    
-
     return (
         <main>
             <Container className="py-16 md:py-20">
                 <section className="max-w-3xl space-y-6">
                     <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
-                        Personal notes on frontend systems
+                        Doris&apos;s notes on frontend work
                     </p>
-                    <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">
-                        用更清晰的结构写内容，也用更清晰的结构维护网站。
+                    <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
+                        把项目里真正遇到的问题、做过的取舍，认真写下来。
                     </h1>
-                    <p className="text-lg leading-8 text-muted-foreground">
-                        这里主要记录 Next.js、TypeScript、设计系统和内容型产品的实现细节，
-                        重点不是堆功能，而是让页面结构和代码结构同时保持干净。
+                    <p className="text-base leading-7 text-muted-foreground md:text-[1.0625rem]">
+                        这里主要记录 React、Next.js、TypeScript、组件设计和内容平台开发。
+                        很多文章都来自这个站点本身的迭代，也来自日常项目里反复会碰到的问题。
                     </p>
                     <div className="flex flex-wrap gap-3">
                         <Button asChild>
@@ -43,22 +40,28 @@ export default async function Home() {
                 <section className="mt-16 space-y-6">
                     <div className="flex items-center justify-between gap-4">
                         <div>
-                            <h2 className="text-2xl font-semibold tracking-tight">最新文章</h2>
+                            <h2 className="text-xl font-semibold tracking-tight md:text-2xl">
+                                最新文章
+                            </h2>
                             <p className="mt-2 text-sm text-muted-foreground">
-                                最近完成的几篇整理，都是围绕博客结构、类型边界和组件复用。
+                                最近更新的两篇文章，基本都来自这段时间做项目时的记录和复盘。
                             </p>
                         </div>
                         <Button variant="ghost" size="sm" asChild>
                             <Link href="/posts">全部文章</Link>
                         </Button>
                     </div>
-                    
+
+                    <LatestPosts />
                 </section>
 
                 <section className="mt-16 space-y-4">
-                    <h2 className="text-2xl font-semibold tracking-tight">常写主题</h2>
+                    <h2 className="text-xl font-semibold tracking-tight md:text-2xl">常写主题</h2>
                     <div className="flex flex-wrap gap-2">
                         <Badge variant="outline">Next.js</Badge>
+                        <Badge variant="outline">React</Badge>
+                        <Badge variant="outline">TypeScript</Badge>
+                        <Badge variant="outline">组件设计</Badge>
                     </div>
                 </section>
             </Container>

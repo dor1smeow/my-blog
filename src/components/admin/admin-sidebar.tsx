@@ -21,9 +21,12 @@ const navItems = [
 
 export function AdminSidebar() {
     return (
-        <aside className="hidden w-64 shrink-0 border-r bg-white md:block">
-            <div className="border-b px-6 py-5">
-                <Link href="/admin" className="text-lg font-semibold">
+        <aside className="hidden w-64 shrink-0 border-r border-black/6 bg-white/88 backdrop-blur md:block dark:border-white/8 dark:bg-zinc-950/88">
+            <div className="border-b border-black/6 px-6 py-5 dark:border-white/8">
+                <Link
+                    href="/admin"
+                    className="text-lg font-semibold text-gray-900 dark:text-zinc-100"
+                >
                     Blog Admin
                 </Link>
             </div>
@@ -33,7 +36,7 @@ export function AdminSidebar() {
                     <Link
                         key={item.href}
                         href={item.href}
-                        className="block rounded-lg px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
+                        className="block rounded-lg px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 hover:text-gray-900 dark:text-zinc-300 dark:hover:bg-white/6 dark:hover:text-white"
                     >
                         {item.title}
                     </Link>

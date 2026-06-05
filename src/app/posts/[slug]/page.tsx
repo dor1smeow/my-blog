@@ -1,104 +1,133 @@
 import type { Metadata } from 'next';
 
-import { ArrowLeft, CalendarDays, Clock } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
+import { publicPostApi } from '@/api/public-post';
+import Container from '@/components/layout/container';
+import { PostDetailSkeleton } from '@/components/post/detail-skeleton';
+import { PostBreadcrumb } from '@/components/post/post-breadcrumb';
 import { Badge } from '@/components/shadcn/ui/badge';
 import { Button } from '@/components/shadcn/ui/button';
 import { Separator } from '@/components/shadcn/ui/separator';
 import { estimateReadingTime, formatPostDate } from '@/lib/post-utils';
-import { getPostBySlug, getPosts } from '@/lib/posts';
+import { siteConfig } from '@/lib/site';
 
-interface PageProps {
+interface PostDetailPageProps {
     params: Promise<{
         slug: string;
     }>;
 }
 
-export async function generateStaticParams() {
-    return (await getPosts()).map((post) => ({
-        slug: post.slug,
-    }));
+async function getPublishedPost(slug: string) {
+    const post = await publicPostApi.detailBySlug(slug);
+
+    if (!post || post.status !== 'PUBLISHED') {
+        return null;
+    }
+
+    return post;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+function formatContent(content: string) {
+    return content
+        .split(/\n{2,}/)
+        .map((paragraph) => paragraph.trim())
+        .filter(Boolean);
+}
+
+export async function generateMetadata({ params }: PostDetailPageProps): Promise<Metadata> {
     const { slug } = await params;
-    const post = await getPostBySlug(slug);
+    const post = await getPublishedPost(slug);
 
     if (!post) {
         return {
             title: '文章不存在',
-            description: '你访问的文章不存在或已被删除。',
         };
     }
 
     return {
         title: post.title,
-        description: post.summary,
+        description: post.summary ?? siteConfig.description,
     };
 }
 
-export default async function Page({ params }: PageProps) {
-    const { slug } = await params;
-    const post = await getPostBySlug(slug);
+async function PostDetailContent({ slug }: { slug: string }) {
+    const post = await getPublishedPost(slug);
 
-    if (!post) return notFound();
+    if (!post) {
+        notFound();
+    }
 
+    const paragraphs = formatContent(post.content);
+    const publishedLabel = post.publishedAt ? formatPostDate(post.publishedAt) : '未发布';
     const readingTime = estimateReadingTime(post.content);
 
     return (
-        <main className="max-w-2xl mx-auto px-6 py-10">
-            <header className="mb-8">
-                <div className="mb-5 flex flex-wrap gap-1.5">
-                    {post.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary">
-                            {tag}
+        <article className="mx-auto max-w-3xl space-y-8">
+            <PostBreadcrumb currentLabel={post.title} />
+
+            <header className="space-y-5">
+                <div className="flex flex-wrap items-center gap-2">
+                    {post.category ? (
+                        <Badge variant="outline" className="rounded-full px-3">
+                            {post.category.name}
                         </Badge>
-                    ))}
+                    ) : null}
+                    <span className="text-sm text-muted-foreground">{publishedLabel}</span>
+                    <span className="text-sm text-muted-foreground">阅读约 {readingTime} 分钟</span>
                 </div>
 
-                <h1 className="mb-3 text-3xl font-bold leading-snug tracking-tight text-foreground">
-                    {post.title}
-                </h1>
-
-                <p className="mb-5 text-base leading-relaxed text-muted-foreground">
-                    {post.summary}
-                </p>
-
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <span className="flex items-center gap-1.5">
-                        <CalendarDays className="size-3.5" />
-                        <time dateTime={post.publishedAt}>{formatPostDate(post.publishedAt)}</time>
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                        <Clock className="size-3.5" />约 {readingTime} 分钟阅读
-                    </span>
+                <div className="space-y-3">
+                    <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
+                        {post.title}
+                    </h1>
+                    <p className="text-base leading-7 text-muted-foreground md:text-[1.0625rem]">
+                        {post.summary ?? '这篇文章没有单独摘要，下面直接进入正文。'}
+                    </p>
                 </div>
+
+                {post.tags.length ? (
+                    <div className="flex flex-wrap gap-2">
+                        {post.tags.map((tag) => (
+                            <Badge key={tag} variant="secondary" className="rounded-full">
+                                {tag}
+                            </Badge>
+                        ))}
+                    </div>
+                ) : null}
             </header>
 
-            <Separator className="mb-8" />
+            <Separator />
 
-            <article className="prose">
-                <div dangerouslySetInnerHTML={{ __html: post.content }} />
-            </article>
-
-            <div className="mt-14">
-                <Separator className="mb-8" />
-                <div className="mb-8 flex flex-wrap gap-1.5">
-                    {post.tags.map((tag) => (
-                        <Badge key={tag} variant="outline">
-                            {tag}
-                        </Badge>
-                    ))}
-                </div>
-                <Button variant="ghost" size="sm" asChild>
-                    <Link href="/posts">
-                        <ArrowLeft className="size-4" />
-                        返回所有文章
-                    </Link>
-                </Button>
+            <div className="space-y-5 text-[15px] leading-8 text-foreground md:text-base">
+                {paragraphs.map((paragraph) => (
+                    <p key={`${post.id}-${paragraph.slice(0, 24)}-${paragraph.length}`}>
+                        {paragraph}
+                    </p>
+                ))}
             </div>
+
+            <footer className="flex flex-wrap items-center gap-3 pt-2">
+                <Button asChild variant="outline">
+                    <Link href="/posts">返回文章列表</Link>
+                </Button>
+            </footer>
+        </article>
+    );
+}
+
+export default async function PostDetailPage({ params }: PostDetailPageProps) {
+    const { slug } = await params;
+
+    return (
+        <main>
+            <Container className="py-16">
+                <Suspense key={slug} fallback={<PostDetailSkeleton />}>
+                    <PostDetailContent slug={slug} />
+                </Suspense>
+            </Container>
         </main>
     );
 }

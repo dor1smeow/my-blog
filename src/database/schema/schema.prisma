@@ -22,8 +22,6 @@ model Post {
   category   Category? @relation(fields: [categoryId], references: [id])
 
   tags Tag[]
-
-  @@map("posts")
 }
 
 model Category {
@@ -31,16 +29,13 @@ model Category {
   name  String @unique
   slug  String @unique
   posts Post[]
-
-  @@map("categories")
 }
 
 model Tag {
   id    String @id @default(cuid())
   name  String @unique
+  slug  String @unique
   posts Post[]
-
-  @@map("tags")
 }
 
 enum PostStatus {

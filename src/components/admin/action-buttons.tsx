@@ -18,6 +18,8 @@ interface Feedback {
     message: string;
 }
 
+type PendingAction = null | 'delete' | 'toggle-status';
+
 async function handleApiResponse(response: Response, fallbackMessage: string) {
     if (response.ok) {
         return;
@@ -41,8 +43,10 @@ export function ActionButtons({ post }: ActionButtonsProps) {
     const [isPending, startTransition] = useTransition();
     const [isDeleting, setIsDeleting] = useState(false);
     const [isTogglingStatus, setIsTogglingStatus] = useState(false);
+    const [pendingAction, setPendingAction] = useState<PendingAction>(null);
 
     const isBusy = isPending || isDeleting || isTogglingStatus;
+    const nextStatusAction = post.status === 'PUBLISHED' ? '下线' : '发布';
 
     async function refreshList() {
         startTransition(() => {
@@ -51,12 +55,6 @@ export function ActionButtons({ post }: ActionButtonsProps) {
     }
 
     async function handleDelete() {
-        const confirmed = window.confirm(`确定删除《${post.title}》吗？此操作不可恢复。`);
-
-        if (!confirmed) {
-            return;
-        }
-
         setFeedback(null);
         setIsDeleting(true);
 
@@ -70,6 +68,7 @@ export function ActionButtons({ post }: ActionButtonsProps) {
                 type: 'success',
                 message: '删除成功',
             });
+            setPendingAction(null);
             await refreshList();
         } catch (error) {
             setFeedback({
@@ -82,13 +81,6 @@ export function ActionButtons({ post }: ActionButtonsProps) {
     }
 
     async function handleToggleStatus() {
-        const nextAction = post.status === 'PUBLISHED' ? '下线' : '发布';
-        const confirmed = window.confirm(`确定要${nextAction}《${post.title}》吗？`);
-
-        if (!confirmed) {
-            return;
-        }
-
         setFeedback(null);
         setIsTogglingStatus(true);
 
@@ -98,16 +90,17 @@ export function ActionButtons({ post }: ActionButtonsProps) {
                 method: 'PATCH',
             });
 
-            await handleApiResponse(response, `${nextAction}失败`);
+            await handleApiResponse(response, `${nextStatusAction}失败`);
             setFeedback({
                 type: 'success',
-                message: `${nextAction}成功`,
+                message: `${nextStatusAction}成功`,
             });
+            setPendingAction(null);
             await refreshList();
         } catch (error) {
             setFeedback({
                 type: 'error',
-                message: error instanceof Error ? error.message : `${nextAction}失败`,
+                message: error instanceof Error ? error.message : `${nextStatusAction}失败`,
             });
         } finally {
             setIsTogglingStatus(false);
@@ -121,14 +114,24 @@ export function ActionButtons({ post }: ActionButtonsProps) {
                     variant="ghost"
                     size="sm"
                     onClick={() => router.push(`/admin/posts/${post.id}/edit`)}
-                    disabled={isBusy}
+                    disabled={isBusy || pendingAction !== null}
                 >
                     编辑
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleDelete} disabled={isBusy}>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setPendingAction('delete')}
+                    disabled={isBusy || pendingAction !== null}
+                >
                     {isDeleting ? '删除中...' : '删除'}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleToggleStatus} disabled={isBusy}>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setPendingAction('toggle-status')}
+                    disabled={isBusy || pendingAction !== null}
+                >
                     {isTogglingStatus
                         ? post.status === 'PUBLISHED'
                             ? '下线中...'
@@ -138,6 +141,34 @@ export function ActionButtons({ post }: ActionButtonsProps) {
                           : '发布'}
                 </Button>
             </div>
+
+            {pendingAction ? (
+                <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+                    <p>
+                        {pendingAction === 'delete'
+                            ? `确认删除《${post.title}》吗？此操作不可恢复。`
+                            : `确认要${nextStatusAction}《${post.title}》吗？`}
+                    </p>
+                    <div className="mt-2 flex gap-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={pendingAction === 'delete' ? handleDelete : handleToggleStatus}
+                            disabled={isBusy}
+                        >
+                            确认
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setPendingAction(null)}
+                            disabled={isBusy}
+                        >
+                            取消
+                        </Button>
+                    </div>
+                </div>
+            ) : null}
 
             {feedback ? (
                 <p

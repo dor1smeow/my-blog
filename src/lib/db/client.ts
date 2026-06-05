@@ -18,11 +18,15 @@ const prismaClientSingleton = () => {
 };
 
 declare global {
+    /* eslint-disable vars-on-top */
     var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>;
+    /* eslint-enable vars-on-top */
 }
 
 const db = !isNil(globalThis.prismaGlobal) ? globalThis.prismaGlobal : prismaClientSingleton();
 
 export default db;
 
-if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = db;
+if (process.env.NODE_ENV !== 'production') {
+    globalThis.prismaGlobal = db;
+}

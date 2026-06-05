@@ -1,9 +1,26 @@
 import type { Metadata } from 'next';
 
-import '@/app/globals.css';
-import Footer from '@/components/layout/footer';
-import Header from '@/components/layout/header';
+import Script from 'next/script';
+
+import '@/app/styles/index.css';
+import Footer from '@/components/layout/footer/index';
+import { Header } from '@/components/layout/header/index';
 import { siteConfig } from '@/lib/site';
+
+import $styles from './layout.module.css';
+
+const themeScript = `
+(() => {
+    const storageKey = 'doris-theme';
+    const storedTheme = window.localStorage.getItem(storageKey);
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = storedTheme === 'dark' || storedTheme === 'light'
+        ? storedTheme
+        : (systemDark ? 'dark' : 'light');
+
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+})();
+`;
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.url),
@@ -20,11 +37,14 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="zh-CN" className="font-sans">
+        <html lang="zh-CN" className="font-sans" suppressHydrationWarning>
             <body className="min-h-screen bg-background text-foreground antialiased">
-                <div className="flex min-h-screen flex-col">
+                <Script id="theme-script" strategy="beforeInteractive">
+                    {themeScript}
+                </Script>
+                <div className={$styles.layout}>
                     <Header />
-                    <div className="flex-1">{children}</div>
+                    {children}
                     <Footer />
                 </div>
             </body>

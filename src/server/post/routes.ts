@@ -5,12 +5,14 @@ import {
     getPostItemUpdateRequestSchema,
     postDetailByIdRequestParamsSchema,
     postDetailBySlugRequestParamsSchema,
+    postListRequestQuerySchema,
     postPaginateSchema,
     postSchema,
 } from '@/server/post/schema';
 import {
     createPost,
     deletePost,
+    getPostById,
     getPostBySlug,
     getPosts,
     isSlugUnique,
@@ -28,6 +30,7 @@ import {
 
 export const postTag = ['文章操作'];
 export const postPath = '/posts';
+export type PostApiType = typeof postRoutes;
 
 const app = createHonoApp();
 const createPostRequestSchema = getPostItemCreateRequestSchema(isSlugUnique());
@@ -45,12 +48,14 @@ export const postRoutes = app
                 ...createServerErrorResponse('查询文章列表失败'),
             },
         }),
+        validator('query', postListRequestQuerySchema),
         async (c) => {
             try {
-                const posts = await getPosts();
+                const posts = await getPosts(c.req.valid('query'));
                 return c.json({
                     success: true,
-                    data: posts,
+                    data: posts.items,
+                    meta: posts.meta,
                 });
             } catch (error) {
                 return c.json(createErrorResult('查询文章列表失败', error), 500);
@@ -59,7 +64,7 @@ export const postRoutes = app
     )
 
     .get(
-        '/:slug',
+        '/bySlug/:slug',
         describeRoute({
             tags: postTag,
             summary: '通过slug文章查询',
@@ -78,6 +83,30 @@ export const postRoutes = app
                 return c.json(result, 200);
             } catch (error) {
                 return c.json(createErrorResult('查询slug失败', error), 500);
+            }
+        },
+    )
+
+    .get(
+        '/byId/:id',
+        describeRoute({
+            tags: postTag,
+            summary: '通过ID文章查询',
+            description: '按ID查询文章, 可按状态、分类等条件过滤',
+            responses: {
+                ...createSuccessResponse(postSchema),
+                ...createValidatorErrorResponse(),
+                ...createServerErrorResponse('查询ID失败'),
+            },
+        }),
+        validator('param', postDetailByIdRequestParamsSchema),
+        async (c) => {
+            try {
+                const { id } = c.req.valid('param');
+                const result = await getPostById(id);
+                return c.json(result, 200);
+            } catch (error) {
+                return c.json(createErrorResult('查询ID失败', error), 500);
             }
         },
     )
@@ -118,7 +147,7 @@ export const postRoutes = app
             },
         }),
         validator('param', postDetailByIdRequestParamsSchema),
-
+        validator('json', getPostItemUpdateRequestSchema()),
         async (c) => {
             try {
                 const params = c.req.valid('param');

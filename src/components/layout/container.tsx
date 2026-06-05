@@ -1,8 +1,8 @@
-import * as React from 'react';
+import type { ComponentProps } from 'react';
 
 import { cn } from '@/lib/utils';
 
-type ContainerProps = React.ComponentProps<'div'>;
+type ContainerProps = ComponentProps<'div'>;
 
 export default function Container({ className, children, ...props }: ContainerProps) {
     return (

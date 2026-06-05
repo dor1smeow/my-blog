@@ -32,6 +32,11 @@ interface PostFormProps {
 
 type FieldErrors = Partial<Record<keyof PostFormValues, string>>;
 
+const fieldClassName =
+    'w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-400 dark:border-white/10 dark:bg-white/6 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-white/20';
+
+const labelClassName = 'font-medium text-gray-900 dark:text-zinc-100';
+
 const defaultValues: PostFormValues = {
     title: '',
     slug: '',
@@ -138,14 +143,13 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
             );
 
             const payload = (await response.json()) as {
-                success: boolean;
                 message?: string;
                 errors?: {
                     fieldErrors?: Record<string, string[] | undefined>;
                 };
             };
 
-            if (!response.ok || !payload.success) {
+            if (!response.ok) {
                 const fieldErrors = payload.errors?.fieldErrors;
 
                 if (fieldErrors) {
@@ -188,9 +192,9 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2">
                 <label className="space-y-2 text-sm">
-                    <span className="font-medium text-gray-900">标题</span>
+                    <span className={labelClassName}>标题</span>
                     <input
-                        className="w-full rounded-lg border border-gray-200 px-3 py-2 outline-none transition focus:border-gray-400"
+                        className={fieldClassName}
                         value={values.title}
                         onChange={(event) => {
                             const nextTitle = event.target.value;
@@ -213,9 +217,9 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
                 </label>
 
                 <label className="space-y-2 text-sm">
-                    <span className="font-medium text-gray-900">Slug</span>
+                    <span className={labelClassName}>Slug</span>
                     <input
-                        className="w-full rounded-lg border border-gray-200 px-3 py-2 outline-none transition focus:border-gray-400"
+                        className={fieldClassName}
                         value={values.slug}
                         onChange={(event) => {
                             setHasTouchedSlug(true);
@@ -228,9 +232,9 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
             </div>
 
             <label className="block space-y-2 text-sm">
-                <span className="font-medium text-gray-900">摘要</span>
+                <span className={labelClassName}>摘要</span>
                 <textarea
-                    className="min-h-24 w-full rounded-lg border border-gray-200 px-3 py-2 outline-none transition focus:border-gray-400"
+                    className={`min-h-24 ${fieldClassName}`}
                     value={values.summary}
                     onChange={(event) => updateField('summary', event.target.value)}
                     placeholder="输入文章摘要"
@@ -239,21 +243,21 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
             </label>
 
             <label className="block space-y-2 text-sm">
-                <span className="font-medium text-gray-900">内容</span>
+                <span className={labelClassName}>内容</span>
                 <textarea
-                    className="min-h-64 w-full rounded-lg border border-gray-200 px-3 py-2 outline-none transition focus:border-gray-400"
+                    className={`min-h-64 ${fieldClassName}`}
                     value={values.content}
                     onChange={(event) => updateField('content', event.target.value)}
-                    placeholder="先用 textarea 输入文章正文"
+                    placeholder="先把正文写完整，排版和细节可以后面再补"
                 />
                 {errors.content ? <p className="text-xs text-red-600">{errors.content}</p> : null}
             </label>
 
             <div className="grid gap-6 md:grid-cols-3">
                 <label className="space-y-2 text-sm">
-                    <span className="font-medium text-gray-900">封面</span>
+                    <span className={labelClassName}>封面</span>
                     <input
-                        className="w-full rounded-lg border border-gray-200 px-3 py-2 outline-none transition focus:border-gray-400"
+                        className={fieldClassName}
                         value={values.cover}
                         onChange={(event) => updateField('cover', event.target.value)}
                         placeholder="/covers/example.svg"
@@ -261,9 +265,9 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
                 </label>
 
                 <label className="space-y-2 text-sm">
-                    <span className="font-medium text-gray-900">状态</span>
+                    <span className={labelClassName}>状态</span>
                     <select
-                        className="w-full rounded-lg border border-gray-200 px-3 py-2 outline-none transition focus:border-gray-400"
+                        className={fieldClassName}
                         value={values.status}
                         onChange={(event) =>
                             updateField('status', event.target.value as PostFormValues['status'])
@@ -275,9 +279,9 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
                 </label>
 
                 <label className="space-y-2 text-sm">
-                    <span className="font-medium text-gray-900">分类</span>
+                    <span className={labelClassName}>分类</span>
                     <select
-                        className="w-full rounded-lg border border-gray-200 px-3 py-2 outline-none transition focus:border-gray-400"
+                        className={fieldClassName}
                         value={values.categoryId}
                         onChange={(event) => updateField('categoryId', event.target.value)}
                     >
@@ -295,7 +299,9 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
             </div>
 
             <fieldset className="space-y-3">
-                <legend className="text-sm font-medium text-gray-900">标签</legend>
+                <legend className="text-sm font-medium text-gray-900 dark:text-zinc-100">
+                    标签
+                </legend>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     {tags.map((tag) => {
                         const checked = values.tagIds.includes(tag.id);
@@ -303,7 +309,7 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
                         return (
                             <label
                                 key={tag.id}
-                                className="flex items-center gap-3 rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                                className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white/70 px-3 py-2 text-sm text-gray-800 dark:border-white/10 dark:bg-white/6 dark:text-zinc-200"
                             >
                                 <input
                                     type="checkbox"
@@ -329,8 +335,8 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
                 <p
                     className={
                         feedback.type === 'success'
-                            ? 'text-sm text-green-600'
-                            : 'text-sm text-red-600'
+                            ? 'text-sm text-green-600 dark:text-green-300'
+                            : 'text-sm text-red-600 dark:text-red-300'
                     }
                 >
                     {feedback.message}
