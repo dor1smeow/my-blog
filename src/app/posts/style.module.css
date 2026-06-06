@@ -107,11 +107,3 @@
         }
     }
 }
-
-:global(html.dark) {
-    .list {
-        & .item:hover > .content {
-            @apply drop-shadow-[0_0_15px_rgba(255,255,255,0.35)];
-        }
-    }
-}

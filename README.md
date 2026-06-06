@@ -116,6 +116,8 @@ http://localhost:3000
 pnpm dev
 pnpm lint
 pnpm test
+pnpm test:unit
+pnpm test:integration
 pnpm build
 pnpm start
 ```
@@ -129,14 +131,20 @@ pnpm start
 
 ## 测试
 
-当前补充了基础单元测试，覆盖：
+当前把测试拆成了两组：
 
-- 阅读时长和日期格式化工具
-- 分页链接和页码展示逻辑
-- Hono API 基础路由、校验失败响应和 404 响应
+- `test:unit`
+  覆盖不依赖数据库的纯函数和纯逻辑：
+  阅读时长与日期格式化、分页链接生成、页码展示逻辑。
+
+- `test:integration`
+  覆盖 Hono 接口入口行为：
+  API 根路由、参数校验失败响应、404 响应。
 
 运行命令：
 
 ```bash
 pnpm test
+pnpm test:unit
+pnpm test:integration
 ```

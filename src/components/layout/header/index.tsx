@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
-import { ThemeToggle } from '@/components/theme/theme-toggle';
 import { siteConfig } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
@@ -77,7 +76,6 @@ export const Header = () => {
                 </nav>
 
                 <div className={$styles.actions}>
-                    <ThemeToggle />
                     <a
                         className={$styles.githubLink}
                         href={siteConfig.github}

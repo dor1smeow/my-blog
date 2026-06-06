@@ -71,7 +71,7 @@ export function AdminPostTable({ posts, meta }: AdminPostTableProps) {
                 </TableBody>
             </Table>
 
-            <div className="flex flex-col gap-3 border-t border-black/6 pt-4 text-sm text-muted-foreground dark:border-white/8 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-3 border-t border-black/6 pt-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
                 <p>共 {meta.total} 篇文章</p>
                 <PaginationNav
                     pathname="/admin/posts"

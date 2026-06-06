@@ -112,28 +112,6 @@
     @apply ml-2 transition-transform duration-300;
 }
 
-:global(html.dark) .content {
-    @apply border-white/10 bg-zinc-900/65 ring-white/8 shadow-[0_18px_45px_rgba(0,0,0,0.32)];
-}
-
-:global(html.dark) .item {
-    &:hover > .content {
-        @apply border-white/16 shadow-[0_26px_65px_rgba(0,0,0,0.45)];
-    }
-}
-
-:global(html.dark) .category {
-    @apply border-amber-400/30 bg-amber-500/12 text-amber-200;
-}
-
-:global(html.dark) .tag {
-    @apply bg-white/6 text-zinc-300;
-}
-
-:global(html.dark) .footer {
-    @apply border-white/10;
-}
-
 @media (max-width: 640px) {
     .content {
         @apply rounded-[1.25rem] p-4;

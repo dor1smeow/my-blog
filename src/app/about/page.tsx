@@ -30,7 +30,7 @@ export default function AboutPage() {
                     <span>前端工程 / 内容平台 / 阅读时间：3 分钟</span>
                 </div>
 
-                <div className="mb-8 rounded-2xl border border-white/20 bg-white/60 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
+                <div className="mb-8 rounded-2xl border border-white/20 bg-white/60 shadow-sm backdrop-blur-xl">
                     <div className="p-6">
                         <h2 className="mb-3 text-xl font-semibold tracking-tight md:text-2xl">
                             我在做什么？

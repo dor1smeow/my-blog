@@ -13,7 +13,7 @@ export default async function AdminNewPostPage() {
                 description="写一篇新文章，发布前也可以先把摘要、分类和标签整理好。"
             />
 
-            <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm dark:border-white/8 dark:bg-zinc-950/70">
+            <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm">
                 <PostForm mode="create" categories={categories} tags={tags} />
             </div>
         </div>

@@ -99,52 +99,6 @@
     --sidebar-ring: oklch(70.5% 0.015 286.067deg);
 }
 
-/* 暗色模式变量：当 html 或上层元素带有 .dark 时生效。 */
-.dark {
-    /* 页面和文字基础颜色。 */
-    --background: oklch(14.1% 0.005 285.823deg);
-    --foreground: oklch(98.5% 0 0deg);
-
-    /* 卡片和弹出层颜色。 */
-    --card: oklch(21% 0.006 285.885deg);
-    --card-foreground: oklch(98.5% 0 0deg);
-    --popover: oklch(21% 0.006 285.885deg);
-    --popover-foreground: oklch(98.5% 0 0deg);
-
-    /* 主要、次要、弱化和强调颜色。 */
-    --primary: oklch(92% 0.004 286.32deg);
-    --primary-foreground: oklch(21% 0.006 285.885deg);
-    --secondary: oklch(27.4% 0.006 286.033deg);
-    --secondary-foreground: oklch(98.5% 0 0deg);
-    --muted: oklch(27.4% 0.006 286.033deg);
-    --muted-foreground: oklch(70.5% 0.015 286.067deg);
-    --accent: oklch(27.4% 0.006 286.033deg);
-    --accent-foreground: oklch(98.5% 0 0deg);
-
-    /* 危险操作、边框、输入框和聚焦环颜色。 */
-    --destructive: oklch(70.4% 0.191 22.216deg);
-    --border: oklch(100% 0 0deg / 10%);
-    --input: oklch(100% 0 0deg / 15%);
-    --ring: oklch(55.2% 0.016 285.938deg);
-
-    /* 图表配色。 */
-    --chart-1: oklch(48.8% 0.243 264.376deg);
-    --chart-2: oklch(69.6% 0.17 162.48deg);
-    --chart-3: oklch(76.9% 0.188 70.08deg);
-    --chart-4: oklch(62.7% 0.265 303.9deg);
-    --chart-5: oklch(64.5% 0.246 16.439deg);
-
-    /* 侧边栏配色。 */
-    --sidebar: oklch(21% 0.006 285.885deg);
-    --sidebar-foreground: oklch(98.5% 0 0deg);
-    --sidebar-primary: oklch(48.8% 0.243 264.376deg);
-    --sidebar-primary-foreground: oklch(98.5% 0 0deg);
-    --sidebar-accent: oklch(27.4% 0.006 286.033deg);
-    --sidebar-accent-foreground: oklch(98.5% 0 0deg);
-    --sidebar-border: oklch(100% 0 0deg / 10%);
-    --sidebar-ring: oklch(55.2% 0.016 285.938deg);
-}
-
 /* shadcn 的全局基础样式补充。 */
 @layer base {
     /* 所有元素默认使用主题里的 border 颜色。 */
@@ -152,7 +106,7 @@
         @apply border-border;
     }
 
-    /* 页面背景和文字颜色使用主题令牌，方便亮暗色模式统一切换。 */
+    /* 页面背景和文字颜色使用主题令牌。 */
     body {
         @apply bg-background text-foreground;
     }

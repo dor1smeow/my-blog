@@ -56,30 +56,6 @@
     @apply inline-flex items-center rounded-full border border-black/10 bg-stone-900 px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-stone-700;
 }
 
-:global(html.dark) .shell {
-    @apply border-white/10;
-}
-
-:global(html.dark) .shellTop {
-    @apply bg-zinc-950/78 shadow-none;
-}
-
-:global(html.dark) .shellScrolled {
-    @apply bg-zinc-950/92 shadow-[0_18px_45px_rgba(0,0,0,0.35)];
-}
-
-:global(html.dark) .brandMark {
-    @apply bg-amber-300 shadow-[0_0_0_6px_rgba(252,211,77,0.14)];
-}
-
-:global(html.dark) .navLink {
-    @apply text-zinc-400 hover:bg-white/[0.06] hover:text-white;
-}
-
-:global(html.dark) .githubLink {
-    @apply border-white/10 bg-white text-zinc-900 hover:bg-zinc-200;
-}
-
 @media (max-width: 767px) {
     .header {
         @apply px-0;

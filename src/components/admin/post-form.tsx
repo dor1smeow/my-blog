@@ -33,9 +33,9 @@ interface PostFormProps {
 type FieldErrors = Partial<Record<keyof PostFormValues, string>>;
 
 const fieldClassName =
-    'w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-400 dark:border-white/10 dark:bg-white/6 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-white/20';
+    'w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-400';
 
-const labelClassName = 'font-medium text-gray-900 dark:text-zinc-100';
+const labelClassName = 'font-medium text-gray-900';
 
 const defaultValues: PostFormValues = {
     title: '',
@@ -299,9 +299,7 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
             </div>
 
             <fieldset className="space-y-3">
-                <legend className="text-sm font-medium text-gray-900 dark:text-zinc-100">
-                    标签
-                </legend>
+                <legend className="text-sm font-medium text-gray-900">标签</legend>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     {tags.map((tag) => {
                         const checked = values.tagIds.includes(tag.id);
@@ -309,7 +307,7 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
                         return (
                             <label
                                 key={tag.id}
-                                className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white/70 px-3 py-2 text-sm text-gray-800 dark:border-white/10 dark:bg-white/6 dark:text-zinc-200"
+                                className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white/70 px-3 py-2 text-sm text-gray-800"
                             >
                                 <input
                                     type="checkbox"
@@ -335,8 +333,8 @@ export function PostForm({ mode, initialValues, categories, tags, postId }: Post
                 <p
                     className={
                         feedback.type === 'success'
-                            ? 'text-sm text-green-600 dark:text-green-300'
-                            : 'text-sm text-red-600 dark:text-red-300'
+                            ? 'text-sm text-green-600'
+                            : 'text-sm text-red-600'
                     }
                 >
                     {feedback.message}

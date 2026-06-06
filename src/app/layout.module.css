@@ -3,7 +3,3 @@
 .layout {
     @apply min-h-full w-full flex p-0 m-0 flex-col justify-between bg-[radial-gradient(circle_at_top,_rgba(245,158,11,0.12),_transparent_28%),linear-gradient(180deg,_rgba(255,255,255,0.98),_rgba(245,245,244,0.94))];
 }
-
-:global(html.dark) .layout {
-    @apply bg-[radial-gradient(circle_at_top,_rgba(245,158,11,0.1),_transparent_24%),linear-gradient(180deg,_rgba(9,9,11,0.98),_rgba(24,24,27,0.94))];
-}

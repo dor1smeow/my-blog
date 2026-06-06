@@ -33,7 +33,7 @@ export default async function AdminEditPostPage({ params }: AdminEditPostPagePro
                 description="调整标题、摘要、正文和归档信息，保存后会同步影响前台展示。"
             />
 
-            <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm dark:border-white/8 dark:bg-zinc-950/70">
+            <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm">
                 <PostForm
                     mode="edit"
                     postId={post.id}

@@ -15,11 +15,3 @@
 .categoryLinkActive {
     @apply border-amber-300/50 bg-amber-50 text-foreground shadow-[inset_0_0_0_1px_rgba(251,191,36,0.18)];
 }
-
-:global(html.dark) .categoryLink {
-    @apply hover:border-white/10 hover:bg-white/[0.04] hover:text-white;
-}
-
-:global(html.dark) .categoryLinkActive {
-    @apply border-amber-300/20 bg-amber-400/10 text-white shadow-[inset_0_0_0_1px_rgba(252,211,77,0.12)];
-}

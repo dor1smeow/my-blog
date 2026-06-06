@@ -48,7 +48,7 @@ export const BlogSidebar = ({
         <aside className={cn($styles.sidebar, className)}>
             <div className="space-y-6 lg:sticky lg:top-16">
                 {showAbout ? (
-                    <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm dark:border-white/8 dark:bg-zinc-950/70">
+                    <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm">
                         <h2 className="mb-4 text-base font-semibold tracking-tight md:text-lg">
                             关于本站
                         </h2>
@@ -60,7 +60,7 @@ export const BlogSidebar = ({
                     </div>
                 ) : null}
 
-                <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm dark:border-white/8 dark:bg-zinc-950/70">
+                <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm">
                     <h2 className="mb-4 text-base font-semibold tracking-tight md:text-lg">分类</h2>
                     <ul className={$styles.categoryList}>
                         <li>
@@ -98,7 +98,7 @@ export const BlogSidebar = ({
                     </ul>
                 </div>
 
-                <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm dark:border-white/8 dark:bg-zinc-950/70">
+                <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm">
                     <h2 className="mb-4 text-base font-semibold tracking-tight md:text-lg">
                         标签云
                     </h2>

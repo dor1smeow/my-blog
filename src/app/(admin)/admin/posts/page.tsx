@@ -39,7 +39,7 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
                 }
             />
 
-            <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm dark:border-white/8 dark:bg-zinc-950/70">
+            <div className="rounded-xl border border-black/6 bg-white/88 p-6 shadow-sm">
                 <AdminPostTable
                     posts={posts.data.map((post) => ({
                         id: post.id,

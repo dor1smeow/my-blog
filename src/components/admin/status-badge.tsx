@@ -7,13 +7,11 @@ interface StatusBadgeProps {
 const statusConfig = {
     DRAFT: {
         label: '草稿',
-        className:
-            'bg-slate-100 text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-800',
+        className: 'bg-slate-100 text-slate-700 hover:bg-slate-100',
     },
     PUBLISHED: {
         label: '已发布',
-        className:
-            'bg-green-100 text-green-700 hover:bg-green-100 dark:bg-green-900/40 dark:text-green-200 dark:hover:bg-green-900/40',
+        className: 'bg-green-100 text-green-700 hover:bg-green-100',
     },
 } satisfies Record<
     StatusBadgeProps['status'],
