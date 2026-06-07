@@ -40,9 +40,6 @@ export default function ResumePage() {
                     <h2 className="text-xl font-semibold tracking-tight md:text-2xl">教育经历</h2>
                     <div className="mt-6 space-y-3">
                         <p className="text-lg font-medium">就读大学：“双一流”高校南京师范大学</p>
-                        <p className="text-sm leading-6 text-muted-foreground">
-    
-                        </p>
                     </div>
                 </section>
 
