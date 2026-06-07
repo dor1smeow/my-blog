@@ -13,6 +13,8 @@ export const metadata: Metadata = {
     description: '记录前端开发、组件设计和内容产品实现里的实践与复盘。',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
     return (
         <main>
