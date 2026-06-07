@@ -6,8 +6,8 @@ import { Suspense } from 'react';
 
 import { publicPostApi } from '@/api/public-post';
 import Container from '@/components/layout/container';
+import { PostBreadcrumb } from '@/components/post/breadcrumb/post-breadcrumb';
 import { PostDetailSkeleton } from '@/components/post/detail-skeleton';
-import { PostBreadcrumb } from '@/components/post/post-breadcrumb';
 import { Badge } from '@/components/shadcn/ui/badge';
 import { Button } from '@/components/shadcn/ui/button';
 import { Separator } from '@/components/shadcn/ui/separator';

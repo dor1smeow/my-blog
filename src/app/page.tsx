@@ -32,6 +32,9 @@ export default async function Home() {
                             <Link href="/posts">查看全部文章</Link>
                         </Button>
                         <Button variant="outline" asChild>
+                            <Link href="/resume">简历页面</Link>
+                        </Button>
+                        <Button variant="outline" asChild>
                             <Link href="/about">关于我</Link>
                         </Button>
                     </div>
