@@ -1,5 +1,10 @@
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PostStatus, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+
+const PostStatus = {
+    DRAFT: 'DRAFT',
+    PUBLISHED: 'PUBLISHED',
+} as const;
 
 const connectionString = process.env.DATABASE_URL;
 
